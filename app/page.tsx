@@ -1,5 +1,6 @@
 "use client"
 import Image from 'next/image'
+import Tree from './components/tree'
 import { useState,useEffect } from 'react'
 import { start } from 'repl'
 import StyledTextContainer from './components/styleparent'
@@ -13,6 +14,7 @@ export default function Home() {
       const response = await fetch('/api/hello');
       const jsonData = await response.json();
       setData(jsonData.data);
+      return jsonData.data
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -22,7 +24,11 @@ export default function Home() {
 
     fetchData();
   }, []);
-  function loadForm(){
+  async function loadForm(){
+
+    const data=await fetchData()
+    
+    
     setForm(true)
 
     

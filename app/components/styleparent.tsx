@@ -12,7 +12,7 @@ const StyledTextContainer: React.FC<StyledTextContainerProps> = ({ children }) =
 
   }
   const words = children.split(' ');
-  const stylingWord=["without a walking aid","brace","another"]
+  const stylingWord=["without a walking aid","without assistance"]
   const combinedPattern = stylingWord.map(phrase => `(${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`).join('|');
   const regex = new RegExp(combinedPattern, 'g');
   const replacedContent = children.replace(regex, '<span class="text-red-500">$&</span>');
