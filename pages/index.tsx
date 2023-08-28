@@ -1,26 +1,15 @@
 "use client"
 import Image from 'next/image'
 import Tree from '../app/components/tree'
-import { useRouter } from 'next/navigation'
 import { useState,useEffect } from 'react'
-import Spinner from './components/Spinner'
 import { start } from 'repl'
 import StyledTextContainer from '../app/components/styleparent'
-export interface MyInterface {
-  // Define properties and their types
-  "﻿Variable name": any;
-  "Field Label": any;
-  'Choices, Calculations, OR Slider Labels': any; // Optional property
-  'Branching Logic (Show field only if...)':any
-}
 export default function Index() {
   const [startForm,setForm]= useState(false)
   const [data,setData]= useState(null)
   const [finishform,setfinishform]=useState(false)
-  const [currentactiveq,setActiveQ]= useState<MyInterface>()
+  const [currentactiveq,setActiveQ]= useState(null)
   const[possiblevalues,setPossibleValues]= useState([0,20])
-  const [isLoading,setLoading]=useState(false)
-  const router = useRouter()
   const fetchData = async () => {
     try {
       const response = await fetch('/api/hello');
@@ -32,43 +21,18 @@ export default function Index() {
     }
   };
   useEffect(() => {
-    console.log("change")
-
-    if(currentactiveq&&currentactiveq['Field Label'].includes("END")){
-      console.log("enddddddddd")
-        setfinishform(!finishform)
-    }
-   
    
 
-   
-  }, [currentactiveq]);
-  function refresh(){
-   setForm(false)
-   
- 
-  setData(null)
-  
-  setfinishform(false)
-  const confirming= window.confirm("Are you sure you want to quit this page, your result will not be saved.")
-  if(confirming){
-    loadForm()
-  }
-
-  
-
-    
-
-  }
+    fetchData();
+  }, []);
   async function loadForm(){
-   setLoading(true)
+   
     const data=await fetchData()
     setData(data)
      setActiveQ(returnactivequestion("",data))
     
     
     setForm(true)
-    setLoading(false)
 
     
     
@@ -89,7 +53,7 @@ export default function Index() {
     return filteredData[filteredData.length-1]
 
 
-  } 
+  }
   
   function getLeafNodeValues(node: BinaryTreeNode | null): number[] {
     if (node === null) {
@@ -131,7 +95,12 @@ function right(){
 }
   return (
    <section>
-    
+    {/*
+  Heads up! 👋
+
+  Plugins:
+    - @tailwindcss/forms
+*/}
 
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
     
@@ -149,13 +118,11 @@ function right(){
     >
      
       <button
-        
+        type="submit"
         className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
         onClick={()=>{loadForm()}}
       >
-        
-        {isLoading==true? <Spinner></Spinner>:"Start outcome measure"}
-       
+        Start outcome measure
       </button>
 
     </section>:
@@ -196,7 +163,7 @@ function right(){
     onClick={left}
   >
     
-    {currentactiveq&&currentactiveq['Choices, Calculations, OR Slider Labels'].includes("|")&&currentactiveq['Choices, Calculations, OR Slider Labels'].split("|")[0].split("1,")}
+    {data&&data['left_q']!=null?<div>{data['left_q']}</div>:<div>yes</div>}
   </button>
   <br></br>
   <button
@@ -205,7 +172,7 @@ function right(){
     onClick={right}
   >
 
-{currentactiveq&&currentactiveq['Choices, Calculations, OR Slider Labels'].includes("|")&&currentactiveq['Choices, Calculations, OR Slider Labels'].split("|")[1].split("0,")}
+    {data&&data['right_q']!=null?<div>{data['right_q']}</div>:<div>no</div>}
   </button>
 
     </section>
@@ -217,14 +184,7 @@ function right(){
 
 </section>:<section>
 
-<button
-    
-    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
-    onClick={refresh}
-  >
-    
-    Try Again
-  </button>
+  <div>The form is finshed try again</div>
   
   
   </section>}
