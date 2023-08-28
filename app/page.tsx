@@ -167,13 +167,7 @@ function right(){
            
             {currentactiveq&& <div dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
         </section>
-      <p className="text-center text-lg font-medium">
-        {finishform==false?<section>{Math.min(...possiblevalues)}-{Math.max(...possiblevalues)}</section>:""}
-      
-        
-        
-      
-      </p>
+    
       
 {finishform==false?
 <section>
