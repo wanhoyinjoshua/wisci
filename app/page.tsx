@@ -129,6 +129,15 @@ function right(){
 
 
 }
+
+function email(){
+  const emailAddress = 'example@example.com';
+  const emailSubject = 'Hello from my React app';
+  const emailBody = 'This is the body of the email.';
+  const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+  return mailtoLink
+
+}
   return (
    <section>
     
@@ -136,13 +145,33 @@ function right(){
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
     
   <div className="mx-auto max-w-lg">
-    <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-      WISCI Outcome Measure Tool
+  <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+    Walking Index for Spinal Cord Injury (WISCI)
     </h1>
+    <br></br>
+    <h2 className="text-center">The Self-Report Version</h2>
+  {startForm==false?
+    <section>
+    
+
 
     <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-      Desscription/ Rationale of the outcome measure, why this online tool will be useful..
+      This self-report outcome measure scores your ability to walk.
+
+It has been tested for reliability and validity (against the original WISCI II version – Ditunno et al 2001).
+
+Self-report WISCI developed by: Marsha Ben, Lisa Harvey and Joanne Glinsky, University of Sydney, Australia
+
+(Ref: Ben M et al (2023) Spinal Cord)
+<br>
+</br>
+
+App developed by: Joshua Wan
     </p>
+
+    </section>:
+    <div></div>}
+   
     {startForm==false? <section
      
       className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
@@ -217,8 +246,19 @@ function right(){
     onClick={refresh}
   >
     
-    Try Again
+    Click here to start again
   </button>
+  <br></br>
+
+  <a
+    
+    className="block text-center w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    
+    href={email()}
+  >
+    
+    Click here to email your results
+  </a>
   
   
   </section>}
