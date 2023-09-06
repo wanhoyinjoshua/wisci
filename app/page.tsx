@@ -204,9 +204,9 @@ App developed by: Joshua Wan
       
       className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
     >
-           <section>
+           <section className='text-neutral-950'>
            
-            {finishform==true&&currentactiveq?<div className='text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&& <div className='lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
+            {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&& <div className='text-neutral-950 lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
         </section>
         <br></br>
     
