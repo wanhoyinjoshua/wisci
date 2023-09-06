@@ -8,9 +8,11 @@ interface StyledTextContainerProps {
 const StyledTextContainer: React.FC<StyledTextContainerProps> = ({ children }) => {
   // Split the content into words
   if(typeof children === 'number'){
+    
     return <div>{children}</div>;
 
   }
+ 
   const words = children.split(' ');
   const stylingWord=["without a walking aid","without assistance"]
   const combinedPattern = stylingWord.map(phrase => `(${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`).join('|');
@@ -21,7 +23,7 @@ const StyledTextContainer: React.FC<StyledTextContainerProps> = ({ children }) =
 
  
       
-      return <div dangerouslySetInnerHTML={{ __html: replacedContent }} />;
+      return <div  dangerouslySetInnerHTML={{ __html: replacedContent }} />;
      
    
 };

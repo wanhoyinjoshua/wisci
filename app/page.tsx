@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react'
 import Spinner from './components/Spinner'
 import { start } from 'repl'
 import StyledTextContainer from '../app/components/styleparent'
+import Header from './components/Header'
 export interface MyInterface {
   // Define properties and their types
   "﻿Variable name": any;
@@ -131,25 +132,36 @@ function right(){
 }
 
 function email(){
-  const emailAddress = 'example@example.com';
-  const emailSubject = 'Hello from my React app';
-  const emailBody = 'This is the body of the email.';
+  const emailAddress = '';
+  const emailSubject = 'Walking Index for Spinal Cord Injury WISCI Self Reported Results';
+  const emailBody = `The score for this participant is ${currentactiveq&&currentactiveq["Field Label"].match(/\d+/g)}}`;
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
   return mailtoLink
 
 }
   return (
-   <section>
+   <section className='h-screen'>
+   
+
+<div className='h-fit'>
+    <Header></Header>
+
+    </div>
     
 
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
     
-  <div className="mx-auto max-w-lg">
-  <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+  <div className="mx-auto ">
+    {startForm==false?  <section>
+    <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
     Walking Index for Spinal Cord Injury (WISCI)
     </h1>
     <br></br>
     <h2 className="text-center">The Self-Report Version</h2>
+
+    </section>:<div></div>}
+  
+
   {startForm==false?
     <section>
     
@@ -194,8 +206,9 @@ App developed by: Joshua Wan
     >
            <section>
            
-            {currentactiveq&& <div dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
+            {finishform==true&&currentactiveq?<div className='text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&& <div className='lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
         </section>
+        <br></br>
     
       
 {finishform==false?
@@ -224,7 +237,7 @@ App developed by: Joshua Wan
   <br></br>
   <button
     type="submit"
-    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    className="block w-full rounded-lg bg-red-600 px-5 py-3 text-sm font-medium text-white"
     onClick={right}
   >
 
