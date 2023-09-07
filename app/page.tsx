@@ -57,8 +57,12 @@ export default function Index() {
   function refresh(){
    setForm(false)
    
- 
+    setHistory([])
+    const firstquestion= returnactivequestion("",data)
+    setActiveQ(firstquestion)
   setData(null)
+  setBackactive(false)
+  
   
   setfinishform(false)
   const confirming= window.confirm("Are you sure you want to quit this page, your result will not be saved.")
@@ -72,12 +76,15 @@ export default function Index() {
 
   }
   async function loadForm(){
+    
    setLoading(true)
     const data=await fetchData()
     setData(data)
     const firstquestion= returnactivequestion("",data)
      setActiveQ(firstquestion)
-     addItemToHistory(firstquestion)
+     const his=[firstquestion]
+     setHistory(his)
+     
      
     
     
@@ -180,7 +187,6 @@ function email(){
   return (
    <section className='h-screen'>
    
-
 <div className='h-fit'>
     <Header></Header>
 
@@ -242,7 +248,10 @@ App developed by: Joshua Wan
       
       className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
     >
-      <button
+    
+           <section className='text-neutral-950'>
+           
+            {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&&<section>  <button
   className={backbuttonactive==true?'group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none ':`group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none  opacity-50 cursor-not-allowed `}
   onClick={()=>{previousquestion()}}
 >
@@ -269,9 +278,7 @@ App developed by: Joshua Wan
     </svg>
   </span>
 </button>
-           <section className='text-neutral-950'>
-           
-            {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&& <div className='text-neutral-950 lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
+ <div className='text-neutral-950 lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} /></section>}
         </section>
         <br></br>
     
