@@ -19,9 +19,15 @@ export default function Index() {
   const [data,setData]= useState(null)
   const [finishform,setfinishform]=useState(false)
   const [currentactiveq,setActiveQ]= useState<MyInterface>()
+  const [historyquestions,setHistory]=useState<MyInterface[]>([])
   const[possiblevalues,setPossibleValues]= useState([0,20])
+  const[backbuttonactive,setBackactive]=useState(false)
   const [isLoading,setLoading]=useState(false)
   const router = useRouter()
+  
+  const addItemToHistory = (item:any) => {
+    setHistory([...historyquestions, item]); // Use spread operator to create a new array with the added item
+  };
   const fetchData = async () => {
     try {
       const response = await fetch('/api/hello');
@@ -34,16 +40,20 @@ export default function Index() {
   };
   useEffect(() => {
     console.log("change")
+    console.log(historyquestions)
 
     if(currentactiveq&&currentactiveq['Field Label'].includes("END")){
       console.log("enddddddddd")
         setfinishform(!finishform)
     }
+    if(historyquestions.length==1){
+      setBackactive(false)
+    }
    
    
 
    
-  }, [currentactiveq]);
+  }, [currentactiveq,historyquestions]);
   function refresh(){
    setForm(false)
    
@@ -65,7 +75,10 @@ export default function Index() {
    setLoading(true)
     const data=await fetchData()
     setData(data)
-     setActiveQ(returnactivequestion("",data))
+    const firstquestion= returnactivequestion("",data)
+     setActiveQ(firstquestion)
+     addItemToHistory(firstquestion)
+     
     
     
     setForm(true)
@@ -91,6 +104,14 @@ export default function Index() {
 
 
   } 
+  function returnpreviousquestion(question:any,data:any){
+    const filteredData = data.filter((item:any) => item==question);
+    console.log(filteredData)
+    //setActiveQ(filteredData)
+    return filteredData[filteredData.length-1]
+
+
+  }
   
   function getLeafNodeValues(node: BinaryTreeNode | null): number[] {
     if (node === null) {
@@ -111,11 +132,11 @@ export default function Index() {
 function left(){
     //this is yes and 
     //set search criteria to variable name = 0 
-   console.log(data)
-   {currentactiveq&&console.log(Object.keys(currentactiveq))}
-   {currentactiveq&&console.log(currentactiveq["﻿Variable name"])}
+  setBackactive(true)
+   
     {currentactiveq&&setActiveQ(returnactivequestion(`[${currentactiveq["﻿Variable name"]}] ='1'`,data))}
- 
+    {currentactiveq&&addItemToHistory(returnactivequestion(`[${currentactiveq["﻿Variable name"]}] ='1'`,data))}
+   
 
  
   
@@ -125,9 +146,26 @@ function left(){
 
 
 function right(){
+  setBackactive(true)
     {currentactiveq&&setActiveQ(returnactivequestion(`[${currentactiveq["﻿Variable name"]}] ='0'`,data))}
+    {currentactiveq&&addItemToHistory(returnactivequestion(`[${currentactiveq["﻿Variable name"]}] ='0'`,data))}
  
 
+
+}
+
+function previousquestion(){
+  if(historyquestions.length==1){
+    setBackactive(false)
+
+    return
+  }
+  setBackactive(true)
+  console.log(historyquestions)
+  const newpreviousquestion = historyquestions[historyquestions.length-2]
+  console.log(newpreviousquestion)
+  {currentactiveq&&setActiveQ(returnpreviousquestion(newpreviousquestion,data))}
+  setHistory(historyquestions.slice(0,historyquestions.length-1))
 
 }
 
@@ -150,10 +188,10 @@ function email(){
     
 
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-    
+   
   <div className="mx-auto ">
     {startForm==false?  <section>
-    <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+    <h1 className="text-center text-2xl font-bold text-theme sm:text-3xl">
     Walking Index for Spinal Cord Injury (WISCI)
     </h1>
     <br></br>
@@ -191,7 +229,7 @@ App developed by: Joshua Wan
      
       <button
         
-        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+        className="block w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
         onClick={()=>{loadForm()}}
       >
         
@@ -204,6 +242,33 @@ App developed by: Joshua Wan
       
       className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
     >
+      <button
+  className={backbuttonactive==true?'group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none ':`group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none  opacity-50 cursor-not-allowed `}
+  onClick={()=>{previousquestion()}}
+>
+  <span className="font-medium  group-hover:text-white">
+   Back
+  </span>
+
+  <span
+    className="shrink-0 rounded-full border border-red-600 bg-white p-2 group-active:border-red-500"
+  >
+    <svg
+      className="h-5 w-5 transform rotate-180"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M17 8l4 4m0 0l-4 4m4-4H3"
+      />
+    </svg>
+  </span>
+</button>
            <section className='text-neutral-950'>
            
             {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&& <div className='text-neutral-950 lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} />}
@@ -213,10 +278,11 @@ App developed by: Joshua Wan
       
 {finishform==false?
 <section>
+
     {currentactiveq&&currentactiveq["﻿Variable name"]=="note_1"?<div>
     <button
     
-    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    className="block w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
     onClick={right}
   >
     
@@ -226,9 +292,10 @@ App developed by: Joshua Wan
     </div>:
 
 <section>
+  
 <button
     type="submit"
-    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    className="block w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
     onClick={left}
   >
     
@@ -237,7 +304,7 @@ App developed by: Joshua Wan
   <br></br>
   <button
     type="submit"
-    className="block w-full rounded-lg bg-red-600 px-5 py-3 text-sm font-medium text-white"
+    className="block w-full rounded-lg bg-red-700 px-5 py-3 text-sm font-medium text-white"
     onClick={right}
   >
 
@@ -255,7 +322,7 @@ App developed by: Joshua Wan
 
 <button
     
-    className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    className="block w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
     onClick={refresh}
   >
     
@@ -265,7 +332,7 @@ App developed by: Joshua Wan
 
   <a
     
-    className="block text-center w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+    className="block text-center w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
     
     href={email()}
   >
