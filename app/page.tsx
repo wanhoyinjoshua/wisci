@@ -7,6 +7,7 @@ import Spinner from './components/Spinner'
 import { start } from 'repl'
 import StyledTextContainer from '../app/components/styleparent'
 import Header from './components/Header'
+import Script from 'next/script'
 export interface MyInterface {
   // Define properties and their types
   "﻿Variable name": any;
@@ -186,6 +187,16 @@ function email(){
 }
   return (
    <section className='h-screen'>
+    <Script src="https://www.googletagmanager.com/gtag/js?id=G-J58VG76H12" />
+    <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-J58VG76H12');
+        `}
+      </Script>
    
 <div className='h-fit'>
     <Header></Header>
