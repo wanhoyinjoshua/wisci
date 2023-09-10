@@ -52,7 +52,7 @@ const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(emailSubj
                     </svg>
                   </div>
                   <div className="w-full flex justify-center mt-3  text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <input className="w-5/6 p-2 cursor-text" value={subject} placeholder='Enter your name here' onChange={(e) => setSubject(e.target.value)} />
+                    <input className="w-5/6 p-2 cursor-text text-black" value={subject} placeholder='Enter your name here' onChange={(e) => setSubject(e.target.value)} />
                     
                   </div>
                 </div>

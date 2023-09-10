@@ -24,7 +24,7 @@ export async function POST (req, res) {
   
 
   //const response=  await axios.post(`https://www.google-analytics.com/debug/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`)
- fetch(`https://www.google-analytics.com/debug/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`, {
+ fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`, {
     method: "POST",
     body: JSON.stringify({
       client_id: body.clientid,
