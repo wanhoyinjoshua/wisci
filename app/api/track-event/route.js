@@ -8,7 +8,7 @@ export async function POST (req, res) {
 
     
   const measurement_id = 'G-J58VG76H12';
-  const api_secret = 'LdBkhtxvTXiBqW8c1I1IyA';
+  const api_secret = process.env.GOOGLE_ANALYTICS_API;
 
   //const gaEndpoint = `https://www.google-analytics.com/mp/collect?measurement_id=${measurement_id}&api_secret=${api_secret}`;
   console.log(req.body)
