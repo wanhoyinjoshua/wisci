@@ -8,6 +8,11 @@ import { start } from 'repl'
 import StyledTextContainer from '../app/components/styleparent'
 import Header from './components/Header'
 import Script from 'next/script'
+import axios from 'axios';
+import Modal from './components/Modal'
+const gaEndpoint = 'https://www.google-analytics.com/collect';
+const trackingId = 'UA-XXXXXXXXX-Y';
+
 export interface MyInterface {
   // Define properties and their types
   "﻿Variable name": any;
@@ -43,8 +48,9 @@ export default function Index() {
     console.log("change")
     console.log(historyquestions)
 
-    if(currentactiveq&&currentactiveq['Field Label'].includes("END")){
+    if(currentactiveq&&currentactiveq['Field Label'].includes("END")||currentactiveq&&currentactiveq['Field Label'].includes("finished")){
       console.log("enddddddddd")
+      sendEventToGA('user_completed_measure')
         setfinishform(!finishform)
     }
     if(historyquestions.length==1){
@@ -77,7 +83,7 @@ export default function Index() {
 
   }
   async function loadForm(){
-    
+  sendEventToGA("user_started_measure")
    setLoading(true)
     const data=await fetchData()
     setData(data)
@@ -163,6 +169,17 @@ function right(){
 }
 
 function previousquestion(){
+  if (finishform==true){
+    setfinishform(false)
+    setBackactive(true)
+    console.log(historyquestions)
+    const newpreviousquestion = historyquestions[historyquestions.length-2]
+    console.log(newpreviousquestion)
+    {currentactiveq&&setActiveQ(returnpreviousquestion(newpreviousquestion,data))}
+    setHistory(historyquestions.slice(0,historyquestions.length-1))
+  
+
+  }
   if(historyquestions.length==1){
     setBackactive(false)
 
@@ -185,6 +202,25 @@ function email(){
   return mailtoLink
 
 }
+
+const sendEventToGA =  (eventName:any) => {
+ 
+function getid() {
+  var match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)'), 
+  raw = match ? decodeURIComponent(match[1]) : null;
+  if (raw) { 
+  match = raw.match(/(\d+\.\d+)$/)
+  } 
+  return (match) ? match[1] : null; 
+  }
+  console.log(getid())
+  console.log(eventName)
+  const response =axios.post('/api/track-event', {
+    name: eventName, // The name of the event
+    clientid: getid(),
+  });
+ console.log(response)
+};
   return (
    <section className='h-screen'>
     <Script src="https://www.googletagmanager.com/gtag/js?id=G-J58VG76H12" />
@@ -239,7 +275,8 @@ App developed by: Joshua Wan
     </section>:
     <div></div>}
    
-    {startForm==false? <section
+    {startForm==false? 
+    <section
      
       className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
     >
@@ -261,8 +298,7 @@ App developed by: Joshua Wan
     >
     
            <section className='text-neutral-950'>
-           
-            {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&&<section>  <button
+           <button
   className={backbuttonactive==true?'group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none ':`group flex items-center justify-between gap-4 rounded-lg border border-current px-5 py-3 text-red-600  hover:bg-red-600 focus:outline-none  opacity-50 cursor-not-allowed `}
   onClick={()=>{previousquestion()}}
 >
@@ -289,6 +325,9 @@ App developed by: Joshua Wan
     </svg>
   </span>
 </button>
+           
+            {finishform==true&&currentactiveq?<div className=' text-neutral-950 text-center font-bold text-3xl'>Your Score is {currentactiveq["Field Label"].match(/\d+/g)}</div>:currentactiveq&&<section>  
+            
  <div className='text-neutral-950 lg:leading-relaxed xl:leading-relaxed lg:text-4xl xl:text-4xl md:text-2xl sm:text-2xl font-sans ' dangerouslySetInnerHTML={{ __html:currentactiveq["Field Label"] }} /></section>}
         </section>
         <br></br>
@@ -347,16 +386,8 @@ App developed by: Joshua Wan
     Click here to start again
   </button>
   <br></br>
+<Modal setter={sendEventToGA} score={currentactiveq&&currentactiveq["Field Label"].match(/\d+/g)}></Modal>
 
-  <a
-    
-    className="block text-center w-full rounded-lg bg-theme px-5 py-3 text-sm font-medium text-white"
-    
-    href={email()}
-  >
-    
-    Click here to email your results
-  </a>
   
   
   </section>}
