@@ -2,10 +2,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Spinner from './Spinner';
+import axiosRetry from 'axios-retry';
 
 
 import { useRouter } from 'next/navigation'
 const Modal = ({ showModal, setShowModal,score, setter }) => {
+  axiosRetry(axios, { retries: 3 });
   const router = useRouter()
   const [subject, setSubject] = useState('');
   const [target, setTarget] = useState('');
