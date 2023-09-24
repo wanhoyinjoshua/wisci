@@ -1,6 +1,6 @@
 import { testMail } from "../../utils/aws-ses";
-export async function POST(req, response) {
-    if (req.method === 'POST') {
+export async function POST(req, res) {
+  
         const body = await req.json()
 
 const message=` 
@@ -34,4 +34,3 @@ console.log(result)
 
     }
 
-}
