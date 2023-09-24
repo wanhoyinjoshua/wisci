@@ -1,6 +1,6 @@
 import { testMail } from "../../utils/aws-ses";
 export async function POST(req, res) {
-  
+    try {
         const body = await req.json()
 
 const message=` 
@@ -31,6 +31,10 @@ const subject=`WISCI-SR Score-${body.subject} `
 const result = await testMail(body.target,message,subject);
 console.log(result)
   return Response.json({ data: result})
+    }
+    catch(error){
+        return Response.json({ data: {data:{msg:"error"}}})
 
+    }
     }
 
