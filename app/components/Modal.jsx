@@ -35,25 +35,37 @@ const Modal = ({ showModal, setShowModal,score, setter }) => {
   
   
 `;
-
-        const respone = await axios.post('/api/email',{target:target, score:score, subject:subject})
-        console.log(respone)
-        if(respone.data.data.msg=="success"){
-          setter("user_send_email")
-          
-          router.push('/email-sent-success')
-          
-
-
-
-
-
+        try{
+          const respone = await axios.post('/api/email',{target:target, score:score, subject:subject})
+          console.log(respone)
+          if(respone.data.data.msg=="success"){
+            setter("user_send_email")
+            
+            router.push('/email-sent-success')
+            
+  
+  
+  
+  
+  
+          }
+          else{
+            setLoading(false)
+            window.alert("There seems to be a problem with sending the email, please check if the email is valid and try again!")
+  
+          }
         }
-        else{
+        catch (error) {
+          // Handle errors here
           setLoading(false)
           window.alert("There seems to be a problem with sending the email, please check if the email is valid and try again!")
 
+          // You can also choose to send an error response to the client if needed
+          // res.status(500).json({ error: 'An error occurred while sending the email' });
         }
+       
+       
+        
     
       };
       const [body, setBody] = useState('Exercise Program:');
