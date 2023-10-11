@@ -95,7 +95,7 @@ const Modal = ({ showModal, setShowModal,score, setter }) => {
                   </div>
                   <div className="w-full flex flex-col justify-center mt-3  text-center sm:mt-0 sm:ml-4 sm:text-left">
                     {loading==true?<Spinner></Spinner>:null}
-                    <input className="w-5/6 p-2 cursor-text text-black" value={subject} placeholder='Enter your name here/ ID assinged' onChange={(e) => setSubject(e.target.value)} />
+                    <input className="w-5/6 p-2 cursor-text text-black" value={subject} placeholder='Enter your name here/ ID assigned' onChange={(e) => setSubject(e.target.value)} />
                     <input className="w-5/6 p-2 cursor-text text-black" value={target} placeholder='Therapist email' onChange={(e) => setTarget(e.target.value)} />
                     
                   </div>

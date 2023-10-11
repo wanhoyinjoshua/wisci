@@ -15,7 +15,7 @@ const page = () => {
       Email sent succesfully
     </p>
 
-    <p className="mt-4 text-gray-500">Please advise to check junk mail if email cannot be located in the inbox</p>
+    <p className="mt-4 text-gray-500">Please be aware that the email may be blocked by spam filters so check junk mail</p>
 
     <a
       href="/"
