@@ -265,11 +265,11 @@ It has been tested for reliability and validity (against the original WISCI II v
 
 Self-report WISCI developed by: Marsha Ben, Lisa Harvey and Joanne Glinsky, University of Sydney, Australia
 
-(Ref: Ben M et al (2023) Spinal Cord)
+(Ref: <a href="https://www.nature.com/articles/s41393-024-00985-8" target="_blank">Ben M et al (2023) Spinal Cord</a>)
 <br>
 </br>
 
-App developed by: Joshua Wan
+App developed by: <a href="https://www.linkedin.com/in/ho-yin-joshua-wan-983a4a304/" target="_blank">Joshua Wan</a>
     </p>
 
     </section>:
