@@ -12,6 +12,7 @@ import axios from 'axios';
 import Modal from './components/Modal'
 const gaEndpoint = 'https://www.google-analytics.com/collect';
 const trackingId = 'UA-XXXXXXXXX-Y';
+import {tag} from "../app/utils/services/tagManger"
 
 export interface MyInterface {
   // Define properties and their types
@@ -50,7 +51,8 @@ export default function Index() {
 
     if(currentactiveq&&currentactiveq['Field Label'].includes("END")||currentactiveq&&currentactiveq['Field Label'].includes("finished")){
       console.log("enddddddddd")
-      sendEventToGA('user_completed_measure')
+      tag('user_completed_measure')
+      //sendEventToGA('user_completed_measure')
         setfinishform(!finishform)
     }
     if(historyquestions.length==1){
@@ -83,7 +85,8 @@ export default function Index() {
 
   }
   async function loadForm(){
-  sendEventToGA("user_started_measure")
+    tag('user_started_measure')
+  //sendEventToGA("user_started_measure")
    setLoading(true)
     const data=await fetchData()
     setData(data)
@@ -203,7 +206,7 @@ function email(){
 
 }
 
-const sendEventToGA =  (eventName:any) => {
+ function sendEventToGA  (eventName:any) {
  
 function getid() {
   var match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)'), 

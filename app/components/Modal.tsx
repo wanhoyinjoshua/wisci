@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Spinner from './Spinner';
 import axiosRetry from 'axios-retry';
 import { run_sendEmail } from '../utils/services/email';
-
+import {tag} from "../utils/services/tagManger"
 
 import { useRouter } from 'next/navigation'
 const Modal = (props:{ showModal:any, setShowModal:any,score:any, setter:any }) => {
@@ -43,7 +43,8 @@ const Modal = (props:{ showModal:any, setShowModal:any,score:any, setter:any }) 
                         setSucess(false)
 
                       }else{
-                        sendEventToGA("user_send_email")
+                        tag("user_send_email")
+                        //sendEventToGA("user_send_email")
                         setLoading(false)
                         setSucess(true)
 
