@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+    "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/tree.jsx", "app/utils/aws-ses.js", "app/api/email/route.js", "app/components/Modal.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/tree.jsx", "app/utils/aws-ses.js", "app/api/email/route.js", "app/components/Modal.jsx", "app/utils/libs/sesClient.js"],
   "exclude": ["node_modules"]
 }
